@@ -1,0 +1,292 @@
+
+Sub d()
+
+Dim x_t As Double ' 基地局座標
+Dim y_t As Double '基地局Y座標
+x_t = -199.5  '基地局'
+y_t = -219.7 '
+Dim x_r As Double '受信場所
+Dim y_r As Double '送信場所
+
+Dim a_t As Double '送受信間直線の傾き
+Dim b_t As Double '送受信間直線の切片
+Dim para_tr As Boolean  '送受信間がy軸に平行なら真
+
+Dim building_number As Integer '建物の数
+Dim sum_height As Double '建物高さの合計
+Dim average_height As Double '建物高さの平均（これを出力とする。)
+
+
+
+
+For i = 3 To 713 '
+ x_r = Sheet1.Cells(i, 1).Value ' 受信場所を取得（A行ののi列目)x座標
+ y_r = Sheet1.Cells(i, 2).Value ' 受信場所の取得(B行のi列目)y座標
+ sum_height = 0 '高さの合計を元に戻す
+ building_number = 0 '建物の数の初期化
+ Debug.Print x_r
+ If x_t = x_r Then
+  para_tr = True '送受信間のx座標が同じであるので、傾きと切片が計測不可
+
+ Else
+ a_t = line_alpha(x_t, x_r, y_t, y_r) '送受信間の直線の傾き
+ b_t = line_b(x_t, x_r, y_t, y_r) '切片
+ para_tr = False
+ 
+
+End If
+ 
+ Call Add_height(7, 74, 3, 2, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート2(北西エリア)のC（3）からEまでの値を7行目から74行目まで見る
+ Call Add_height(7, 174, 8, 2, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート2(北西エリア)のH（8）からJまでの値を7行目から174行目まで見る
+ Call Add_height(7, 158, 13, 2, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート2(北西エリア)のM（13）からOまでの値を7行目から158行目まで見る
+ Call Add_height(7, 118, 18, 2, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート2(北西エリア)のR（18）からTまでの値を7行目から118行目まで見る
+ Call Add_height(7, 186, 23, 2, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート2(北西エリア)のW（23）からYまでの値を7行目から186行目まで見る
+ Call Add_height(7, 310, 3, 3, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート3(南西エリア)のC（3）からEまでの値を7行目から310行目まで見る
+ Call Add_height(7, 270, 8, 3, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート3(南西エリア)のH（8）からJまでの値を7行目から270行目まで見る
+ Call Add_height(7, 362, 13, 3, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート3(南西エリア)のM（13）からOまでの値を7行目から362行目まで見る
+ Call Add_height(7, 122, 3, 4, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート4(南東エリア)のC（3）からEまでの値を7行目から122行目まで見る
+ Call Add_height(7, 86, 8, 4, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート4(南東エリア)のH（8）からJまでの値を7行目から86行目まで見る
+ Call Add_height(7, 146, 13, 4, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート4(南東エリア)のM（13）からOまでの値を7行目から146行目まで見る
+ Call Add_height(7, 118, 18, 4, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート4(南東エリア)のR（18）からTまでの値を7行目から118行目まで見る
+ Call Add_height(7, 86, 23, 4, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート4(南東エリア)のW（23）からYまでの値を7行目から86行目まで見る
+ Call Add_height(7, 126, 28, 4, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート4(南東エリア)のAB（28）からADまでの値を7行目から126行目まで見る
+ Call Add_height(7, 26, 33, 4, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート4(南東エリア)のAG（33）からAIまでの値を7行目から26行目まで見る
+ Call Add_height(7, 194, 3, 5, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート5(北東エリア)のC（3）からEまでの値を7行目から194行目まで見る
+ Call Add_height(7, 174, 8, 5, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート5(北東エリア)のH（8）からJまでの値を7行目から174行目まで見る
+ Call Add_height(7, 174, 13, 5, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート5(北東エリア)のM（13）からOまでの値を7行目から174行目まで見る
+ Call Add_height(7, 174, 18, 5, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート5(北東エリア)のR（18）からTまでの値を7行目から174行目まで見る
+ Call Add_height(7, 14, 23, 5, a_t, b_t, para_tr, x_t, y_t, x_r, y_r, sum_height, building_number) 'シート5(北東エリア)のMW（23）からYまでの値を7行目から14行目まで見る(簡単のためh2の値は無視する。)
+If building_number = 0 Then '建物が無いとき
+ average_height = 0 '建物の高さは0
+Else
+average_height = sum_height / CDbl(building_number) '高さの合計/建物の数より、建物の高さの平均を求める。 Cdbl()によりDouble 型に変換
+End If
+
+
+
+Sheet1.Cells(i, 3).Value = average_height ' C列のi行目に高さの平均を書き込む
+ 
+Next i
+ 
+
+ 
+End Sub
+
+Public Function line_alpha(ByVal x1 As Double, ByVal x2 As Double, ByVal y1 As Double, ByVal y2 As Double) As Double '二点間の直線の座標から傾きを計算。(点１の)
+   line_alpha = (y2 - y1) / (x2 - x1)
+End Function
+
+Public Function line_b(ByVal x1 As Double, ByVal x2 As Double, ByVal y1 As Double, ByVal y2 As Double) As Double '二点の座標から二点を結ぶ直線の切片を計算
+    line_b = y1 - (y2 - y1) * x1 / (x2 - x1)
+
+End Function
+
+Public Function cross(ByVal a1 As Double, ByVal b1 As Double, ByVal a2 As Double, ByVal b2 As Double, ByVal x_t As Double, ByVal x_r As Double) As Boolean ' 直線から、交点を導き出し、特定の範囲無いであれば交わっていると判断する。
+'引数は(直線１の傾きa1,切片b1、直線2の傾きa2,直線2の切片b2,基地局x座標x_t、受信局x座標x_r)
+Dim cross_x As Double '交点x座標
+cross_x = (b2 - b1) / (a1 - a2) '2つの直線の傾きと切片から交点のx座標を求める。
+If (cross_x < x_t Or cross_x < x_r) And (cross_x > x_t Or cross_x > x_r) Then '交わったとき
+  cross = True
+ Else '交わらなかったとき
+ cross = False
+ End If
+
+
+End Function
+
+ Sub Add_height(ByVal start As Integer, ByVal endpoint As Integer, ByVal column As Integer, ByVal page As Integer, ByVal a_t As Double, ByVal b_t As Double, ByVal para_t As Boolean, ByVal x_t As Double, ByVal y_t As Double, ByVal x_r As Double, ByVal y_r As Double, ByRef height As Double, ByRef number As Integer)
+ '指定した場所の建物を使う。アドレスを渡す。
+'引数は(はじめの行start、終わりの行endpoint、注目する列数column、どの頁を参照するかpage,基地局と受信局を結ぶ直線の傾きa_t、切片b_t,線が交わるかの情報para_t、基地局x座標x_t、基地局y座標y_t、受信局x座標x_r、受信局y座標y_r,建物の数(参照渡し) integer)
+'戻り値は建物の高さの合計、また引数の建物の数を変化させる。
+Dim x1 As Double '建物の左上の点のx座標
+Dim y1 As Double 'y座標
+Dim x2 As Double '建物の右上の点のx座標
+Dim y2 As Double ' y座標
+Dim x3 As Double '建物の左下のx座標
+Dim y3 As Double 'y座標
+Dim x4 As Double '建物の右下のx座標
+Dim y4 As Double '建物の右下のy座標
+
+Dim a_overline As Double '建物の上の線分の傾き
+Dim b_overline As Double '建物の上の線分の切片
+Dim a_underline As Double '建物の下の線分の傾き
+Dim b_underline As Double '建物の下の線分の切片
+Dim a_left As Double '建物の左の線分の傾き
+Dim b_left As Double '建物の左の線分の切片
+
+Dim para_overline As Boolean '建物の上の線分がy軸に平行なら真
+Dim para_underline As Boolean '建物の下の線分がy軸に平行なら真
+Dim para_left As Boolean '建物の左の線分がy軸に平行なら真
+
+Dim crossing_overline As Boolean '上の交点が交差しているなら真
+Dim crossing_underline As Boolean '下の交点に交差しているなら真
+Dim crossing_left As Boolean '左の交点に交差しているなら真
+
+Dim x_over_interception_point As Double '上の交点のｘ座標
+Dim y_over_interception_point As Double '上の交点のx座標
+Dim x_under_interception_point As Double '下の交点のx座標
+Dim y_under_interception_point As Double '下の交点のx座標
+Dim x_left_interception_point As Double '左の交点のx座標
+Dim y_left_interception_point As Double '左の交点のy座標
+
+
+
+ For j = start To endpoint Step 4 '
+  If page = 2 Then '北西エリア(sheet2)
+  x1 = Sheet2.Cells(j, column).Value '建物の左上のx座標を取得(行のj列目。）
+  y1 = Sheet2.Cells(j, column + 1).Value '建物の左上のy座標を取得(xのある行の一つ右の行のj列目。）
+  x2 = Sheet2.Cells(j + 1, column).Value '建物の右上のx座標を取得(行のj+1列目。
+  y2 = Sheet2.Cells(j + 1, column + 1).Value '建物の右上のy座標を取得(行のj+1列目。））
+  x3 = Sheet2.Cells(j + 2, column).Value '建物の左下のx座標を取得(行のj+2列目。）
+  y3 = Sheet2.Cells(j + 2, column + 1).Value '建物の左下のy座標を取得(行のj+2列目。）
+  x4 = Sheet2.Cells(j + 3, column).Value '建物の右下のx座標を取得(行のj列目。
+  y4 = Sheet2.Cells(j + 3, column + 1).Value '建物の右下のy座標を取得(行のj列目。
+  
+  End If
+  If page = 3 Then '南東エリア(sheet3)
+    x1 = Sheet2.Cells(j, column).Value '建物の左上のx座標を取得(行のj列目。）
+  y1 = Sheet3.Cells(j, column + 1).Value '建物の左上のy座標を取得(行のj列目。）
+  x2 = Sheet3.Cells(j + 1, column).Value '建物の右上のx座標を取得(行のj+1列目。
+  y2 = Sheet3.Cells(j + 1, column + 1).Value '建物の右上のy座標を取得(行のj+1列目。））
+  x3 = Sheet3.Cells(j + 2, column).Value '建物の左下のx座標を取得(行のj+2列目。）
+  y3 = Sheet3.Cells(j + 2, column + 1).Value '建物の左下のy座標を取得(行のj+2列目。）
+  x4 = Sheet3.Cells(j + 3, column).Value '建物の右下のx座標を取得(行のj列目。
+  y4 = Sheet3.Cells(j + 3, column + 1).Value '建物の右下のy座標を取得(行のj列目。
+  End If
+  If page = 4 Then ' 南西エリア(sheet4)
+   x1 = Sheet4.Cells(j, column).Value '建物の左上のx座標を取得(行のj列目。）
+  y1 = Sheet4.Cells(j, column + 1).Value '建物の左上のy座標を取得(行のj列目。）
+  x2 = Sheet4.Cells(j + 1, column).Value '建物の右上のx座標を取得(行のj+1列目。
+  y2 = Sheet4.Cells(j + 1, column + 1).Value '建物の右上のy座標を取得(行のj+1列目。））
+  x3 = Sheet4.Cells(j + 2, column).Value '建物の左下のx座標を取得(行のj+2列目。）
+  y3 = Sheet4.Cells(j + 2, column + 1).Value '建物の左下のy座標を取得(行のj+2列目。）
+  x4 = Sheet4.Cells(j + 3, column).Value '建物の右下のx座標を取得(行のj列目。
+  y4 = Sheet4.Cells(j + 3, column + 1).Value '建物の右下のy座標を取得(行のj列目。
+  End If
+  If page = 5 Then ' 北東エリア (sheet5)
+    x1 = Sheet5.Cells(j, column).Value '建物の左上のx座標を取得(行のj列目。）
+  y1 = Sheet5.Cells(j, column + 1).Value '建物の左上のy座標を取得(行のj列目。）
+  x2 = Sheet5.Cells(j + 1, column).Value '建物の右上のx座標を取得(行のj+1列目。
+  y2 = Sheet5.Cells(j + 1, column + 1).Value '建物の右上のy座標を取得(行のj+1列目。））
+  x3 = Sheet5.Cells(j + 2, column).Value '建物の左下のx座標を取得(行のj+2列目。）
+  y3 = Sheet5.Cells(j + 2, column + 1).Value '建物の左下のy座標を取得(行のj+2列目。）
+  x4 = Sheet5.Cells(j + 3, column).Value '建物の右下のx座標を取得(行のj列目。
+  y4 = Sheet5.Cells(j + 3, column + 1).Value '建物の右下のy座標を取得(行のj列目。
+  End If
+  
+
+  If x1 = x2 Then
+   para_overline = True '送受信間のx座標が同じであるので、傾きと切片が計測不可
+
+  Else
+   a_overline = line_alpha(x1, x2, y1, y2) '建物の上の直線の傾き
+   b_overline = line_b(x1, x2, y1, y2) '切片
+   para_overline = False
+
+  End If
+  
+  
+  If x1 = x3 Then '左上と左下のｘ座標が同じなら
+   para_overline = True '送受信間のx座標が同じであるので、傾きと切片が計測不可
+
+  Else
+   a_left = line_alpha(x1, x3, y1, y3) '建物の上の直線の傾き
+   b_left = line_b(x1, x3, y1, y3) '切片
+   para_overline = False
+
+  End If
+  
+  
+  If x3 = x4 Then ' 左下と右下のx座標が同じなら
+   para_overline = True '送受信間のx座標が同じであるので、傾きと切片が計測不可
+
+  Else
+   a_underline = line_alpha(x3, x4, y3, y4) '建物の上の直線の傾き
+   b_underline = line_b(x3, x4, y3, y4) '切片
+   para_underline = False
+
+  End If
+  
+  
+  '上辺において 交わるかどうかの判定
+  If (para_t And para_overline) Or (a_overline = a_t) Then  '基地局と受信局を結ぶ線か建物の線がＹ軸と両方が平行であった場合、もしくは傾きが等しかった場合
+   cross_overline = False '交わらない。
+  ElseIf para_t And (Not para_overline) Then ' 基地局と受信局を結ぶ線のみがY軸に平行な場合
+   If (x1 < x_t Or x2 < x_t) And (x1 > x_t Or x2 < x_t) Then ' 基地局座標が建物の線に入っていた場合
+    cross_overline = True '交わる
+    Else
+     cross_overline = False '交わらない
+    End If
+  ElseIf (Not para_t) And para_over Then ' 建物の上辺が平行なら
+    If (x_t < x1 Or x_r < x1) And (x_t > x1 Or x_r < x1) Then ' 建物の線のx座標に基地局と受信局を結ぶ線があった場合。
+     cross_overline = True '交わる
+    Else
+     cross_overline = False '交わらない
+    End If
+   
+    
+  Else '普通の状態
+   cross_overline = cross(a_overline, b_overline, a_t, b_t, x_t, x_r) '計算
+  End If
+  '左辺において交わるかどうかの判定
+    If (para_t And para_left) Or (a_left = a_t) Then  '基地局と受信局を結ぶ線か建物の線がＹ軸と両方が平行であった場合、もしくは傾きが等しかった場合
+   cross_left = False '交わらない。
+  ElseIf para_t And (Not para_left) Then ' 基地局と受信局を結ぶ線のみがY軸に平行な場合
+   If (x1 < x_t Or x3 < x_t) And (x1 > x_t Or x3 < x_t) Then ' 基地局座標が建物の線に入っていた場合
+    cross_left = True '交わる
+    Else
+     cross_left = False '交わらない
+    End If
+  ElseIf (Not para_t) And para_left Then ' 建物の上辺が平行なら
+    If (x_t < x1 Or x_r < x1) And (x_t > x1 Or x_r < x1) Then ' 建物の線のx座標に基地局と受信局を結ぶ線があった場合。
+     cross_left = True '交わる
+    Else
+     cross_left = False '交わらない
+    End If
+   
+    
+  Else '普通の状態
+   cross_left = cross(a_left, b_left, a_t, b_t, x_t, x_r) '計算
+  End If
+  
+  
+  '下辺において交わるかどうかの判定
+   If (para_t And para_left) Or (a_underline = a_t) Then  '基地局と受信局を結ぶ線か建物の線がＹ軸と両方が平行であった場合、もしくは傾きが等しかった場合
+   cross_under_line = False '交わらない。
+  ElseIf para_t And (Not para_underline) Then ' 基地局と受信局を結ぶ線のみがY軸に平行な場合
+   If (x3 < x_t Or x4 < x_t) And (x3 > x_t Or x4 < x_t) Then ' 基地局座標が建物の線に入っていた場合
+    cross_underline = True '交わる
+    Else
+     cross_underline = False '交わらない
+    End If
+  ElseIf (Not para_t) And para_underline Then ' 建物の上辺が平行なら
+    If (x_t < x3 Or x_r < x3) And (x_t > x3 Or x_r < x3) Then ' 建物の線のx座標に基地局と受信局を結ぶ線があった場合。
+     cross_underline = True '交わる
+    Else
+     cross_underline = False '交わらない
+    End If
+   
+    
+  Else '普通の状態
+   cross_underline = cross(a_unerline, b_underline, a_t, b_t, x_t, x_r) '計算
+  End If
+  
+  '建物の3つの辺のうちいずれかが基地局と端末を結ぶ線分と交わっていれば、建物は基地局と￥交わることになるので、建物の高さと数を足す。
+  If cross_over = True Or cross_left = True Or cross_under = True Then '
+  If page = 2 Then ' sheet2(北西エリア)のデータに注目しているとき
+    height = height + Sheet2.Cells(j, column + 2).Value ' xのある列より2つ右の列のj行目の建物の高さのデータを取り出す。
+  End If
+  If page = 3 Then ' sheet3(南東エリア)のデータに注目しているとき
+    height = height + Sheet3.Cells(j, column + 2).Value ' xのある列より2つ右の列のj行目の建物の高さのデータを取り出す。
+  End If
+    If page = 4 Then ' sheet4(北西エリア)のデータに注目しているとき
+    height = height + Sheet4.Cells(j, column + 2).Value ' xのある列より2つ右の列のj行目の建物の高さのデータを取り出す。
+  End If
+    If page = 5 Then ' sheet5(北西エリア)のデータに注目しているとき
+    height = height + Sheet5.Cells(j, column + 2).Value ' xのある列より2つ右の列のj行目の建物の高さのデータを取り出す。
+  End If
+  
+  number = number + 1 '建物の数に1を加える。
+  End If
+ Next j
+End Sub
